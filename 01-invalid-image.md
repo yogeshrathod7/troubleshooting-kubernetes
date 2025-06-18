@@ -22,7 +22,7 @@ spec:
 ### Step 2: Apply the manifest
 kubectl apply -f wrong-image.yaml
 ### Step 3: Check Pod status
-`kubectl get pods`
+--- kubectl get pods
 Expected output:
 ```
 NAME          READY   STATUS         RESTARTS   AGE
