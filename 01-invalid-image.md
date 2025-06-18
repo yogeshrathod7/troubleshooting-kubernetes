@@ -22,15 +22,15 @@ spec:
 ### Step 2: Apply the manifest
 kubectl apply -f wrong-image.yaml
 ### Step 3: Check Pod status
---- kubectl get pods
+` kubectl get pods `
 Expected output:
 ```
 NAME          READY   STATUS         RESTARTS   AGE
 wrong-image   0/1     ErrImagePull   0          20s
 ```
-🔍 Analyze the Problem
+# 🔍 Analyze the Problem
 Use kubectl describe to view the detailed error:
-kubectl describe pod wrong-image
+``` kubectl describe pod wrong-image ```
 Sample Events Output:
 Events:
   Type     Reason     Age                 From               Message
