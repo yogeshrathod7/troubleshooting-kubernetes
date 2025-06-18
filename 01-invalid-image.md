@@ -1,4 +1,4 @@
-1️⃣ Scenario: Wrong Image Name or Tag
+#1️⃣ Scenario: Wrong Image Name or Tag
 
 A common typo like nginx:latets (instead of nginx:latest) can prevent Kubernetes from pulling the container image.
 
@@ -6,7 +6,7 @@ A common typo like nginx:latets (instead of nginx:latest) can prevent Kubernetes
 
 Step 1: Create a broken Pod manifest
 
-# wrong-image.yaml
+## wrong-image.yaml
 apiVersion: v1
 kind: Pod
 metadata:
