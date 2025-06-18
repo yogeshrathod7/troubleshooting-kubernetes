@@ -18,6 +18,6 @@ spec:
   containers:
   - name: app
     image: nginx:latets
-
-Step 2: Apply the manifest
+```
+### Step 2: Apply the manifest
 kubectl apply -f wrong-image.yaml
