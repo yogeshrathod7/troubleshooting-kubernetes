@@ -27,7 +27,7 @@ Below are the most common reasons for this issue:
 ### How the Transition Happens
 
 When Kubernetes encounters image pull issues, the flow generally looks like this:
-
+```
 [Pod Created]
 ↓
 [Try to Pull Image]
@@ -41,3 +41,4 @@ When Kubernetes encounters image pull issues, the flow generally looks like this
 [Apply BackOff logic]
 ↓
 🔁 Keep retrying with delays → Status: ImagePullBackOff
+```
