@@ -54,6 +54,9 @@ Ensure your node or corporate network allows outbound access to:
 Ask your network admin if this traffic is being blocked.
 
 ✅ Summary
-Problem	Root Cause	Solution
-ImagePullBackOff	No internet or DNS resolution	Set correct nameserver and test access
-Registry pull fails silently	Firewall blocks registry access	Allow outbound HTTPS to Docker registry
+```
+| Problem                      | Root Cause                      | Solution                                 |
+| ---------------------------- | ------------------------------- | ---------------------------------------- |
+| `ImagePullBackOff`           | No internet or DNS resolution   | Set correct `nameserver` and test access |
+| Registry pull fails silently | Firewall blocks registry access | Allow outbound HTTPS to Docker registry  |
+```
