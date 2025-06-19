@@ -18,6 +18,7 @@ To simulate this, you would **manually block outgoing internet access** on the n
 ```bash
 kubectl get nodes -o wide
 ssh <node-ip>
+```
 Replace <node-ip> with the external/internal IP of the target node.
 ```
 ### Step 2: Test Internet and DNS Access
