@@ -4,7 +4,7 @@
 
 `CrashLoopBackOff` is a **Pod status** in Kubernetes that means the container is **repeatedly crashing after starting**. Kubernetes tries to restart it, but it keeps failing — entering a loop of:
 
-crash → restart → crash
+### crash → restart → crash
 ---
 
 ## Why Does It Happen?
@@ -41,7 +41,7 @@ envFrom:
       name: my-config
 ```
 or
-```
+```yaml
 volumeMounts:
   - name: my-secret
     mountPath: /etc/secret
@@ -49,7 +49,7 @@ volumeMounts:
 ✅ Ensure referenced resources exist and are mounted correctly.
 ### 🔹 4. Fix Health Probes
 Example of correct liveness probe:
-```
+```yaml
 livenessProbe:
   httpGet:
     path: /health
@@ -60,14 +60,14 @@ livenessProbe:
 💡 You can disable probes temporarily for debugging.
 ### 🔹 5. Adjust Memory Limits
 Check for OOMKilled status and adjust limits:
-```
+```yaml
 resources:
   limits:
     memory: "256Mi"
 ```
 ### 🔹 6. Increase Startup Delay
 If your app takes time to boot, increase:
-```
+```yaml
 livenessProbe.initialDelaySeconds
 ```
 ### 🔹 7. Use Init Containers
