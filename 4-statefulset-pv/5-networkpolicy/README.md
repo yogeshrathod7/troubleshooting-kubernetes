@@ -35,6 +35,7 @@ nc -zv <db-service> 5432  # or your DB port
 
 # 5. Temporarily remove policy (optional)
 kubectl delete networkpolicy <name> -n <namespace>
+```
 ## 🔒 Best Practices for Securing Databases in Kubernetes
 *Practice*	                    *Recommendation*
 ✅ NetworkPolicy	      Restrict DB access to necessary pods only
