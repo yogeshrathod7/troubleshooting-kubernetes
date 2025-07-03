@@ -1,3 +1,112 @@
+# 🛠️ Kubernetes PV, PVC, SC & StatefulSet Troubleshooting Guide
+
+This guide provides a concise overview of five common issues when working with Kubernetes **Persistent Volumes (PVs)**, **Persistent Volume Claims (PVCs)**, **StorageClasses (SCs)**, and **StatefulSets (STSs)** — along with quick commands and fixes.
+
+---
+
+## ❌ 1. PVC Stuck in `Pending`
+
+**🔍 Root Cause:**
+- The `StorageClass` does not exist or has an incorrect `provisioner`
+- Dynamic provisioning is not working
+
+**✅ Quick Fix:**
+```bash
+kubectl get sc                    # Check available StorageClasses
+kubectl describe pvc <pvc-name>   # Review events and SC used
+```
+Ensure a valid `StorageClass` exists (e.g., `ebs.csi.aws.com` for AWS).
+
+---
+
+## ❌ 2. PV and PVC Not Bound
+
+**🔍 Root Cause:**
+- Mismatched specs between PV and PVC:
+  - StorageClassName
+  - AccessModes
+  - Requested capacity
+
+**✅ Quick Fix:**
+```bash
+kubectl describe pv <pv-name>
+kubectl describe pvc <pvc-name>
+```
+Ensure exact match between:
+- `storageClassName`
+- `accessModes`
+- `resources.requests.storage`
+
+---
+
+## ❌ 3. StatefulSet Pod Stuck in `ContainerCreating`
+
+**🔍 Root Cause:**
+- PVC is stuck in `Pending`
+- Invalid or missing StorageClass
+
+**✅ Quick Fix:**
+```bash
+kubectl get pvc | grep <sts-name>
+kubectl describe sts <sts-name>
+```
+Check if the associated PVC is bound and StorageClass is correct.
+Fix or recreate SC → redeploy the StatefulSet.
+
+---
+
+## ❌ 4. Pod Fails to Mount Volume
+
+**🔍 Root Cause:**
+- PVC name typo in YAML
+- PV is in `Released` state and cannot bind
+- CSI driver not running
+
+**✅ Quick Fix:**
+```bash
+kubectl describe pod <pod-name>
+kubectl get pods -n kube-system | grep csi
+```
+- Fix YAML PVC name
+- Restart failed CSI pods (e.g., `ebs-csi-*`)
+- Consider deleting PV finalizers if stuck
+
+---
+
+## ❌ 5. PV in `Released` State Not Reusable
+
+**🔍 Root Cause:**
+- Previous PVC was deleted
+- PV is `Retain` but has no claim bound
+
+**✅ Quick Fix:**
+```bash
+kubectl patch pv <pv-name> -p '{"metadata":{"finalizers":null}}'
+```
+- Remove finalizer
+- Create a new PVC matching its definition
+
+---
+
+## ✅ Tips for StatefulSet + EBS + PVC Success
+
+- Always set `volumeBindingMode: WaitForFirstConsumer` in SC
+- Use `Retain` policy for StatefulSets needing volume recovery
+- Track PVC names (`<claim-name>-<sts-name>-<ordinal>`) carefully
+
+---
+
+## 📎 Reference Commands
+
+```bash
+kubectl get pvc,pv
+kubectl get sc
+kubectl describe pvc <name>
+kubectl describe pv <name>
+kubectl get sts,pods
+kubectl logs <pod>                 # Check mount/volume errors
+kubectl get pods -n kube-system    # Check CSI status
+```
 # 🧰 EKS StatefulSet PVC Recovery Lab (AWS EBS CSI)
 
 ## ✅ Step 0: Create EKS Cluster
