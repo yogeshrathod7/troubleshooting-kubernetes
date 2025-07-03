@@ -45,7 +45,7 @@ kubectl delete networkpolicy <name> -n <namespace>
 🌐 ClusterIP	          Avoid exposing DB externally
 🛡️ PodSecurity	        Use AppArmor, Seccomp, PSP
 🔁 Connection Pooler	  Use PgBouncer for efficient DB access
-#🔬 Lab: Simulate and Fix NetworkPolicy Issue
+# 🔬 Lab: Simulate and Fix NetworkPolicy Issue
 ##🧱 Setup
 Namespace: netpol-demo
 
@@ -56,19 +56,20 @@ Pods:
   db → nginx (mock DB)
 
 Policy: only allow ingress to db from pods labeled role=admin
-# 1. Create namespace
+### 1. Create namespace
 kubectl create ns netpol-demo
 
-# 2. Deploy db pod
+### 2. Deploy db pod
 kubectl run db -n netpol-demo --image=nginx --labels="role=db" --port=80 --restart=Never
 
-# 3. Deploy app pod
+### 3. Deploy app pod
 kubectl run app -n netpol-demo --image=busybox --labels="role=client" --command -- sleep 3600
 
-# 4. Test connectivity
+### 4. Test connectivity
 kubectl exec -n netpol-demo app -- wget -qO- http://db
 
-# 5. Apply restrictive policy
+### 5. Apply restrictive policy
+```
 cat <<EOF | kubectl apply -n netpol-demo -f -
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
@@ -89,15 +90,16 @@ spec:
   policyTypes:
   - Ingress
 EOF
+```
 
-# 6. Retest — expected to fail
+### 6. Retest — expected to fail
 kubectl exec -n netpol-demo app -- wget -qO- http://db
 
-# 7. Fix label on app pod
+### 7. Fix label on app pod
 kubectl label pod app role=admin --overwrite -n netpol-demo
 
-# 8. Retest — should succeed
+### 8. Retest — should succeed
 kubectl exec -n netpol-demo app -- wget -qO- http://db
 
-# 9. Cleanup
+### 9. Cleanup
 kubectl delete ns netpol-demo
