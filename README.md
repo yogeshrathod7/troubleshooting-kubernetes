@@ -102,5 +102,15 @@ ingress:
       matchLabels:
         app: my-app
 ```
+## 📦 Pro Tips
+
+| 🔧 Area     | 💡 Recommendation                                                                 |
+|------------|------------------------------------------------------------------------------------|
+| Logs       | Always check `kubectl logs <pod>` and `kubectl describe <pod>`                    |
+| Debugging  | Use ephemeral debug pods: `kubectl run -it debug --image=busybox --rm -- /bin/sh` |
+| Labels     | Double-check labels used in NetworkPolicy, Service, and Deployment selectors       |
+| Volumes    | Ensure correct `StorageClass`, matching `volumeBindingMode`, and PVCs             |
+| Events     | Check cluster events: `kubectl get events --sort-by='.metadata.creationTimestamp'`|
+
 
 
