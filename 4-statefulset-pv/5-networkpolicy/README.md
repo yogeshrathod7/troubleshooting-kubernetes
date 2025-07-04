@@ -164,9 +164,10 @@ kubectl label pod app role=admin --overwrite -n netpol-demo
 ## ✅ Step 9: Retest
 ```bash
 kubectl exec -n netpol-demo app -- wget -qO- http://db
-``
+```
 ✅ Now the app can reach the DB pod — issue resolved!
-## 🧹 Cleanup
+
+## CleanUp
 ```bash
 kubectl delete namespace netpol-demo
 ```
