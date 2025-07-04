@@ -59,7 +59,7 @@ kubectl describe pod <pod-name>
 kubectl get nodes -o wide
 kubectl get pvc
 ```
-###✅ Quick Fix
+### ✅ Quick Fix
 - Adjust resource requests/limits
 - Remove taints or use tolerations
 - Ensure matching PVC and StorageClass
